@@ -10,7 +10,7 @@ A key feature of the system is its **continuous dataset improvement workflow**: 
 ---
 
 
-🧠 NLP & Machine Learning
+## 🧠 NLP & Machine Learning
 
 The system uses a traditional NLP text-classification pipeline:
 
