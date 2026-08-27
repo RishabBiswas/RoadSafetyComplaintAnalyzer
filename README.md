@@ -12,52 +12,67 @@ A key feature of the system is its **continuous dataset improvement workflow**: 
 
 ## 🧠 NLP & Machine Learning
 
-The system uses a traditional NLP text-classification pipeline:
+The system uses a traditional **NLP-based text classification pipeline**:
 
-Complaint Text
-      ↓
-Text Cleaning
-(NLTK + Regular Expressions)
-      ↓
-TF-IDF Vectorization
-(Unigrams + Bigrams)
-      ↓
-Multinomial Naive Bayes
-      ↓
-┌───────────────────┬───────────────────┐
-│ Category Model    │ Priority Model    │
-└─────────┬─────────┴─────────┬─────────┘
-          ↓                   ↓
-   Complaint Category    Priority Level
-Text Preprocessing
+```mermaid
+flowchart TD
+    A[Complaint Text] --> B[Text Cleaning]
+    B --> C[TF-IDF Vectorization]
+    C --> D[Multinomial Naive Bayes]
+
+    D --> E[Category Classifier]
+    D --> F[Priority Classifier]
+
+    E --> G[Complaint Category]
+    F --> H[Priority Level]
+```
+
+### Text Preprocessing
 
 Complaint text is preprocessed using:
 
-Lowercasing
-Regular-expression based cleaning
-Tokenization
-English stop-word removal using NLTK
-Feature Extraction
+* **Lowercasing**
+* **Regular-expression based cleaning**
+* **Tokenization**
+* **English stop-word removal using NLTK**
 
-TF-IDF (Term Frequency–Inverse Document Frequency) is used to convert the cleaned complaint text into numerical features. The model uses both unigrams and bigrams to capture individual words as well as two-word combinations.
+### Feature Extraction
 
-Classification Model
+**TF-IDF (Term Frequency–Inverse Document Frequency)** converts the cleaned complaint text into numerical features.
 
-The project uses Multinomial Naive Bayes, a probabilistic machine-learning algorithm well suited for text classification.
+The vectorizer uses both **unigrams and bigrams** (`ngram_range=(1,2)`), allowing the model to capture individual words as well as two-word combinations.
+
+### Classification Model
+
+The project uses **Multinomial Naive Bayes**, a probabilistic machine-learning algorithm commonly used for text classification.
 
 Two separate classifiers are trained:
 
-Category Classifier — predicts the type/category of road complaint.
-Priority Classifier — predicts the priority level of the complaint.
+* **Category Classifier** — predicts the category/type of road complaint.
+* **Priority Classifier** — predicts the priority level of the complaint.
 
-The models are trained using labeled complaint data and saved using joblib for use by the Flask application.
+Both classifiers use the same TF-IDF feature representation but are trained against their respective target labels.
 
+```python
 from sklearn.naive_bayes import MultinomialNB
 
 category_model = MultinomialNB()
 priority_model = MultinomialNB()
 
-Model performance is evaluated using precision, recall, F1-score, and classification reports.
+category_model.fit(X_train_c, y_train_c)
+priority_model.fit(X_train_p, y_train_p)
+```
+
+The trained models and TF-IDF vectorizer are serialized using **Joblib** and stored for use by the Flask application.
+
+### Model Evaluation
+
+The models are evaluated using:
+
+* **Precision**
+* **Recall**
+* **F1-score**
+* **Classification Report**
 
 ## ✨ Key Features
 
