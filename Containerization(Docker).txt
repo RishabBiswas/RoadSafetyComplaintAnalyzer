@@ -1,0 +1,1 @@
+docker run -d --name road-safety-postgres -e POSTGRES_DB=road_safety_db -e POSTGRES_USER=roadsafety_user -e POSTGRES_PASSWORD=roadsafety123 -p 5433:5432 -v road_safety_pgdata:/var/lib/postgresql/data postgres:16

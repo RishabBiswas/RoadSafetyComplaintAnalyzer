@@ -1,0 +1,11 @@
+superuser:postgres
+superuser pw:postgres123
+user:roadsafety_user
+user pw:roadsafety123
+
+DB_NAME     = road_safety_db
+DB_USER     = roadsafety_user
+DB_PASSWORD = roadsafety123
+DB_HOST     = localhost
+DB_PORT     = 5432
+
